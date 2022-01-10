@@ -1,0 +1,20 @@
+version: '3'
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    restart: always
+    hostname: '127.0.0.1'
+    container_name: gitlab
+    environment:
+      GITLAB_OMNIBUS_CONFIG: 
+        external_url 'http://localhost'
+    ports:
+      - "8080:80"
+      - "8022:22"
+      - "8443:443"
+    volumes:
+      - "./GITLAB_HOME/config:/etc/gitlab"
+      - "./GITLAB_HOME/logs:/var/log/gitlab"
+      - "./GITLAB_HOME/data:/var/opt/gitlab"
+
+
