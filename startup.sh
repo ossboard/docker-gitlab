@@ -6,8 +6,10 @@ then
   echo "root 권한으로 실행할 수 없습니다"
   exit 0
 fi
-export T_USAGE="Usage: $0 {start | stop | restart | status | log | shell | up(install)| down(uninstall)  }"
-export T_HOME=`pwd -P`
+
+export T_USAGE="Usage: $0 {start | stop | restart | status | log | up | down | shell }"
+export T_HOME=${PWD}
+export C_NAME=gitlab
 
 cd ${T_HOME}
 
@@ -27,19 +29,18 @@ fn_log() {
   echo "fn_log"
 }
 
-fn_shell() {
- docker exec -it gitlab /bin/bash
-}
-
-
 fn_up() {
   docker-compose up -d
-  fn_shell
 }
 
 fn_down() {
   docker-compose down
 }
+
+fn_shell() {
+  docker exec -it ${C_NAME} /bin/sh
+}
+
 
 case $1 in
   start) fn_start ;;
@@ -50,9 +51,9 @@ case $1 in
       fn_start ;;
   status) fn_status ;;
   log) fn_log ;;
-  shell) fn_shell ;;
   up) fn_up ;;
   down) fn_down ;;
+  shell) fn_shell ;;
   *) echo ${T_USAGE} ;;
 esac
 exit 0
